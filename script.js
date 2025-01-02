@@ -5,6 +5,8 @@
 //     city: "Hyderabad"
 // }
 
+const { createStore } = require("redux")
+
 // let prevState = state;
 
 // state.count = state.count + 1;
@@ -158,30 +160,30 @@
 // console.dir(createStore)  //createStore() is a function
 // createStore()  //We call it normally without console. Uncaught Error: Expected the root reducer to be a function. Instead, received: 'undefined'
 
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
-const initialState = {
-    ID: 0,
-    name: "Aamir",
-    age: 28,
-    city: "Hyderabad"
-}
+// const initialState = {
+//     ID: 0,
+//     name: "Aamir",
+//     age: 28,
+//     city: "Hyderabad"
+// }
 
-function reducer(state = initialState, action) {
-    if(action.type === 'post/increment') {
-        return {...state, ID: state.ID + 1};
-    } else if(action.type === 'post/decrement') {
-        return {...state, ID: state.ID - 1};
-    } else if(action.type === 'post/incrementBy') {
-        return {...state, ID: state.ID + action.payload}
-    }
-    return state;
-}
+// function reducer(state = initialState, action) {
+//     if(action.type === 'post/increment') {
+//         return {...state, ID: state.ID + 1};
+//     } else if(action.type === 'post/decrement') {
+//         return {...state, ID: state.ID - 1};
+//     } else if(action.type === 'post/incrementBy') {
+//         return {...state, ID: state.ID + action.payload}
+//     }
+//     return state;
+// }
 
-const store = createStore(reducer)  //created store. if we use only store it shows. Uncaught ReferenceError: createStore is not defined
+// const store = createStore(reducer)  //created store. if we use only store it shows. Uncaught ReferenceError: createStore is not defined
 
-console.log(store)
-console.log(store.getState());  //we get updated state.
+// console.log(store)
+// console.log(store.getState());  //we get updated state.
 
 // redux use reducer in behind the scene like shown below:
 // reducer({currentStateValue}, {action})
@@ -190,7 +192,60 @@ console.log(store.getState());  //we get updated state.
 //If we have to call the reducer, we call dispatch(behind the scene dispatch will call the reducer)
 //How do we call dispatch?
 
-store.dispatch()
+// store.dispatch()
 
 //who want reducer, action needs reducer. We can't call the reducer directly. In store we don't get reducer directly.
-//Through dispatch we call reducer. in dispatch only we have to pass action parameter. Like: dispatch(action) action must be plain obj
+//Through dispatch we call reducer. in dispatch only we have to pass action parameter. 
+//Like: dispatch(action) action must be plain obj
+
+// store.dispatch({type: 'post/increment'})  //We have to pass action as a plain object.
+// store.dispatch({type: 'testing the dispatch for reducer'})
+// store.dispatch({type: 'post/increment'})  //action dispatch: using obj j{type: 'post/increment'} is action type for reducer action increment request.
+// console.log(store.getState())
+// store.dispatch({type: 'post/decrement'})
+// console.log(store.getState())
+
+//Whenever state changes, automatically we should know what solution.
+//Now to solve the problem of calling multiple times console.
+//log for checking the output this subscribe method will be useful (How ?).
+
+// store.subscribe(() => {  //using callback function
+//     console.log(store.getState())    //to get the state we use getState() function
+// })
+
+const initialState = {
+    id: 0,
+    name: 'subscribe',
+    age: 29,
+    city: 'Delhi'
+}
+
+const increment = 'post/increment'
+const decrement = 'post/decrement'
+const increaseBy = 'post/increaseBy'
+const decreaseBy = 'post/decreaseBy'
+
+function reducer(state= initialState, action) {
+    if(action.type === increment) {
+        return{...state, id: state.id + 1}
+    } else if(action.type === decrement) {
+        return{...state, id: state.id - 1}
+    } else if(action.type === increaseBy) {
+        return{...state, id: state.id + action.payload}
+    } else if(action.type === decreaseBy) {
+        return{...state, id: state.id - action.payload}
+    }
+}
+
+const store = createStore(reducer)
+console.log(store)
+
+store.subscribe(() => {
+    console.log(store.getState())
+})
+
+store.dispatch({type: increment})
+store.dispatch({type: decrement})
+store.dispatch({type: increment, payload: 1})
+store.dispatch({type: increaseBy, payload:10})
+store.dispatch({type: decreaseBy, payload:5})
