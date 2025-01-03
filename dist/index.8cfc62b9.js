@@ -763,57 +763,108 @@ const { createStore } = require("60336495eb07da9c");
 // store.subscribe(() => {  //using callback function
 //     console.log(store.getState())    //to get the state we use getState() function
 // })
+const idCountElement = document.querySelector('.id-count');
 const initialState = {
     id: 0,
     name: 'subscribe',
     age: 29,
     city: 'Delhi'
 };
-const increment = 'post/increment';
-const decrement = 'post/decrement';
-const increaseBy = 'post/increaseBy';
-const decreaseBy = 'post/decreaseBy';
+//this is a convention it is a best practice to do.
+//in action type it is like to keep your convention name in complete capital letters like shown below.
+//When we use only Redux. Then we can/ have to keep this convention in different file. Just to create a single store.
+const INCREMENT = 'post/INCREMENT';
+const DECREMENT = 'post/DECREMENT';
+const INCREASED_BY = 'post/INCREASED_BY';
+const DECREASED_BY = 'post/DECREASED_BY';
+//writing in if else statements:
+// function reducer(state= initialState, action) {
+//     if(action.type === INCREMENT) {
+//         return{...state, id: state.id + 1}
+//     } else if(action.type === DECREMENT) {
+//         return{...state, id: state.id - 1}
+//     } else if(action.type === INCREASED_BY) {
+//         return{...state, id: state.id + action.payload}
+//     } else if(action.type === DECREASED_BY) {
+//         return{...state, id: state.id - action.payload}
+//     }
+// }
+//writing in switch case: Traditionally it is likely to create using switch case. & This is how it was written.
+//In redux tool kit we can use without switch case.
 function reducer(state = initialState, action) {
-    if (action.type === increment) return {
-        ...state,
-        id: state.id + 1
-    };
-    else if (action.type === decrement) return {
-        ...state,
-        id: state.id - 1
-    };
-    else if (action.type === increaseBy) return {
-        ...state,
-        id: state.id + action.payload
-    };
-    else if (action.type === decreaseBy) return {
-        ...state,
-        id: state.id - action.payload
-    };
+    switch(action.type){
+        case INCREMENT:
+            return {
+                ...state,
+                id: state.id + 1
+            };
+        case DECREMENT:
+            return {
+                ...state,
+                id: state.id - 1
+            };
+        case INCREASED_BY:
+            return {
+                ...state,
+                id: state.id + action.payload
+            };
+        case DECREASED_BY:
+            return {
+                ...state,
+                id: state.id - action.payload
+            };
+        default:
+            return state;
+    }
 }
-const store = createStore(reducer);
+//we can also write it in a single line like this
+// return state.id + 1
+// return state.id - 1
+// return state.id + action.payload  
+// const store = createStore(reducer)
+// const store = createStore(reducer, __REDUX_DEVTOOLS_EXTENSION__())  
+//if we use where we don't have any redux devtool extension then we will get error.
+//how to fix from rendering error where there is no redux devtool extension? By using option chaining.
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.()) //created state
+;
+//Here we have used option chaining. In JS ES6 we find option chaining.
+//window.__REDUX_DEVTOOLS_EXTENSION__ ?.() It is called store enhancer. middle ware is also known as store enhancer, we have to pass.
+//window.__REDUX_DEVTOOLS_EXTENSION__ ?.() In redux dev tools we don't need to use this option
 console.log(store);
 store.subscribe(()=>{
-    console.log(store.getState());
+    console.log(store.getState()) //we get store value from getState()
+    ;
+    idCountElement.innerHTML = store.getState().id;
+});
+idCountElement.innerHTML = store.getState().id;
+store.dispatch({
+    type: INCREMENT
 });
 store.dispatch({
-    type: increment
+    type: DECREMENT
 });
+// store.dispatch({type: INCREMENT, payload: 1})
+// store.dispatch({type: DECREMENT})
 store.dispatch({
-    type: decrement
-});
-store.dispatch({
-    type: increment,
-    payload: 1
-});
-store.dispatch({
-    type: increaseBy,
+    type: INCREASED_BY,
     payload: 10
 });
 store.dispatch({
-    type: decreaseBy,
+    type: DECREASED_BY,
     payload: 5
 });
+//In console (redux) we see mainly inspector & chart
+// we can try with other examples: like setTimeout
+// setTimeout(() => {
+//     store.dispatch({type: DECREMENT})
+// }, 2000);
+idCountElement.addEventListener('click', ()=>{
+    store.dispatch({
+        type: INCREMENT
+    });
+}) //like id we can also make changes with name & other attributes
+ //This above was the practical example of how we use REDUX in JavaScript Application
+;
 
 },{"60336495eb07da9c":"anWnS"}],"anWnS":[function(require,module,exports,__globalThis) {
 // src/utils/formatProdErrorMessage.ts
