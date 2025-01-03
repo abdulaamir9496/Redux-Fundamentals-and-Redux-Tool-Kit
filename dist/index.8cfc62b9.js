@@ -603,6 +603,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 //     city: "Hyderabad"
 // }
 const { createStore } = require("60336495eb07da9c");
+const { myCreateStore } = require("62f5cf0ddf91bf88");
 // let prevState = state;
 // state.count = state.count + 1;
 // state.count = state.count + 1;
@@ -827,10 +828,12 @@ function reducer(state = initialState, action) {
 //how to fix from rendering error where there is no redux devtool extension? By using option chaining.
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.()) //created state
 ;
+const myStore = myCreateStore();
 //Here we have used option chaining. In JS ES6 we find option chaining.
 //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() It is called store enhancer. middle ware is also known as store enhancer, we have to pass.
 //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() In redux dev tools we don't need to use this option
 console.log(store);
+console.log(myStore);
 store.subscribe(()=>{
     console.log(store.getState()) //we get store value from getState()
     ;
@@ -866,7 +869,7 @@ idCountElement.addEventListener('click', ()=>{
  //This above was the practical example of how we use REDUX in JavaScript Application
 ;
 
-},{"60336495eb07da9c":"anWnS"}],"anWnS":[function(require,module,exports,__globalThis) {
+},{"60336495eb07da9c":"anWnS","62f5cf0ddf91bf88":"hh9Yn"}],"anWnS":[function(require,module,exports,__globalThis) {
 // src/utils/formatProdErrorMessage.ts
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -1204,6 +1207,27 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["dm4SN","6rimH"], "6rimH", "parcelRequire94c2")
+},{}],"hh9Yn":[function(require,module,exports,__globalThis) {
+//create function returns a object which has 3 properties.
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "myCreateStore", ()=>myCreateStore);
+function myCreateStore() {
+    const store = {
+        // manually-created methods: getState(), dispatch(), subscribe() methods
+        getState () {
+            console.log('getState');
+        },
+        dispatch () {
+            console.log('dispatch');
+        },
+        subscribe () {
+            console.log('subscribe');
+        }
+    };
+    return store;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"7yyeJ"}]},["dm4SN","6rimH"], "6rimH", "parcelRequire94c2")
 
 //# sourceMappingURL=index.8cfc62b9.js.map

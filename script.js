@@ -6,6 +6,7 @@
 // }
 
 const { createStore } = require("redux")
+const { myCreateStore } = require("./my-redux")
 
 // let prevState = state;
 
@@ -271,11 +272,13 @@ function reducer(state = initialState, action) {
 //if we use where we don't have any redux devtool extension then we will get error.
 //how to fix from rendering error where there is no redux devtool extension? By using option chaining.
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ ?.())  //created state
+const myStore = myCreateStore();
 //Here we have used option chaining. In JS ES6 we find option chaining.
 //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() It is called store enhancer. middle ware is also known as store enhancer, we have to pass.
 //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() In redux dev tools we don't need to use this option
 
 console.log(store)
+console.log(myStore)
 
 store.subscribe(() => {
     console.log(store.getState())   //we get store value from getState()
