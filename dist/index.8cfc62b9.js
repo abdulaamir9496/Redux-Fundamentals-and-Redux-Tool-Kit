@@ -596,638 +596,271 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"6rimH":[function(require,module,exports,__globalThis) {
-// let state = {
-//     count : 0,
-//     name: 'Aamir',
-//     age: 28,
-//     city: "Hyderabad"
+// // let state = {
+// //     count : 0,
+// //     name: 'Aamir',
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// const { createStore } = require("redux")
+// const { myCreateStore } = require("./my-redux")
+// // let prevState = state;
+// // state.count = state.count + 1;
+// // state.count = state.count + 1;
+// // state.count = state.count + 1;
+// // function increment() {
+// //     //*** Mutating State ***//
+// //     // state.count = state.count + 1;
+// //     //*** Not Mutating State ***//
+// //     state = {...state, count: state.count + 1};
+// // }
+// // increment();
+// // console.log(state);
+// // increment();
+// // console.log(state);
+// // increment();
+// // console.log(state);
+// //Redux says we should'nt call like this.
+// // We should not mutate the state. Without mutating the state we should change the state.
+// // let state = {
+// //     count : 0,
+// //     name: 'Aamir',
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// //Reducer function: Reducer means updater.
+// // function stateUpdater(state) {    //Redux says stateUpdater is a reducer, which means reducer is a (stateUpdater)
+// //     state = {...state, count: state.count + 1}   
+// //     //Redux says no not this way. You should not touch directly. No updating like this for updating values.
+// //     //Then how ? Redux says I will update by myself(Redux). How ? Redux says I will pass state(as a parameter) & return new state..
+// // }
+// //What Redux will do ?
+// // let reduxState = {
+// //     ID : 0,
+// //     name: 'Aamir',
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// // function reducer(state) {
+// //     return{...state, ID: state.ID + 1};
+// // }
+// // reduxState = reducer(reduxState);
+// // reduxState = reducer(reduxState);
+// // reduxState = reducer(reduxState);
+// //Behind the scenes this is how it works.
+// //TOPIC: state + action
+// //Along with the state we also pass action. action is a plane JS Object. How it looks like ?
+// // let reduxState = {
+// //     ID: 0,
+// //     name: 'Aamir',
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// // function reducer(state, action) {
+// //     console.log(action);    //Now it shows as 'undefined'
+// //     return{...state, ID: state.ID + 1};
+// // }
+// // reduxState = reducer(reduxState, action);    //redux will pass the action. We will pass action manually differently.
+// //we can directly create action as shown below:  
+// // reduxState = reducer(reduxState, {type: 'post/increment'});   //This is action's type. By convention post/increment is good to use.
+// //type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
+// //Still it looks confusing ? Will understand with the real time scenario.
+// // let reduxState = {
+// //     ID: 0,
+// //     name: "Aamir",
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// // function reducer(state, action) {
+// //     // return{...state, ID: state.ID + 1};
+// //     //type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
+// //     if(action.type === 'post/increment') {
+// //         return {...state, ID: state.ID + 1};
+// //     } else if(action.type === 'post/decrement') {
+// //         return {...state, ID: state.ID - 1};
+// //     } else if(action.type === 'post/incrementBy') {
+// //         // return {...state, ID: state.ID + 1, payload: action.payload + action.payload};
+// //         // payload: Extra data. Provides the extra details needed to perform that action (e.g., the todo text, or the ID of the todo to delete).
+// //         return {...state, ID: state.ID + action.payload}
+// //     }
+// //     return state;
+// // }
+// //What will redux do ?
+// // console.log(reduxState)
+// //type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
+// // reduxState = reducer(reduxState, {type: 'post/increment'})
+// // console.log(reduxState)
+// // reduxState = reducer(reduxState, {type: 'post/increment'})
+// // console.log(reduxState)
+// // reduxState = reducer(reduxState, {type: 'post/decrement'})
+// // console.log(reduxState)
+// // //Incrementing values using Redux
+// // reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 10})   // Extra data needed to add
+// // console.log(reduxState)
+// // reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 15})   // Extra data needed to add
+// // console.log(reduxState)
+// // reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 7})    // Extra data needed to add
+// // console.log(reduxState)
+// //Reducer function reduces the state into a single value.
+// //Here above lines of code we have seen repetitive code for updating state management. 
+// //It helps you manage global state by providing a state management mechanism for JavaScript applications 
+// //that require state management and state management functions in Redux and provide 
+// //the ability to manage state management for JavaScript applications. 
+// //TOPIC: Redux
+// //We will install Redux & parcel (Globally)
+// //npm init -y (simple npm project gets created by this command)
+// //npm install -g parcel (parcel project gets created by this command)
+// //parcel what it does?
+// // It collects all the files in a bundle and starts a server.
+// // So we can work in a different different files
+// //npx parcel index.html
+// //npm i redux (we could have installed it earlier but we couldn't use it by importing, If we try to import it didn't get imported. Normal JS don't know node modules)
+// // import { createStore } from 'redux';  //We can use this only for learning purpose
+// // console.log(createStore)  //This is deprecated. we see some function of createStore
+// //createStore is a function that takes a reducer function as an argument and returns a store object.
+// //The store object has methods like getState(), dispatch(), subscribe(), and unsubscribe() that can be used
+// //to interact with the store.
+// // to see more create like object methods we use 
+// // console.dir(createStore)  //createStore() is a function
+// // createStore()  //We call it normally without console. Uncaught Error: Expected the root reducer to be a function. Instead, received: 'undefined'
+// // import { createStore } from 'redux';
+// // const initialState = {
+// //     ID: 0,
+// //     name: "Aamir",
+// //     age: 28,
+// //     city: "Hyderabad"
+// // }
+// // function reducer(state = initialState, action) {
+// //     if(action.type === 'post/increment') {
+// //         return {...state, ID: state.ID + 1};
+// //     } else if(action.type === 'post/decrement') {
+// //         return {...state, ID: state.ID - 1};
+// //     } else if(action.type === 'post/incrementBy') {
+// //         return {...state, ID: state.ID + action.payload}
+// //     }
+// //     return state;
+// // }
+// // const store = createStore(reducer)  //created store. if we use only store it shows. Uncaught ReferenceError: createStore is not defined
+// // console.log(store)
+// // console.log(store.getState());  //we get updated state.
+// // redux use reducer in behind the scene like shown below:
+// // reducer({currentStateValue}, {action})
+// // Then how do we update the state ?
+// //If we have to call the reducer, we call dispatch(behind the scene dispatch will call the reducer)
+// //How do we call dispatch?
+// // store.dispatch()
+// //who want reducer, action needs reducer. We can't call the reducer directly. In store we don't get reducer directly.
+// //Through dispatch we call reducer. in dispatch only we have to pass action parameter. 
+// //Like: dispatch(action) action must be plain obj
+// // store.dispatch({type: 'post/increment'})  //We have to pass action as a plain object.
+// // store.dispatch({type: 'testing the dispatch for reducer'})
+// // store.dispatch({type: 'post/increment'})  //action dispatch: using obj j{type: 'post/increment'} is action type for reducer action increment request.
+// // console.log(store.getState())
+// // store.dispatch({type: 'post/decrement'})
+// // console.log(store.getState())
+// //Whenever state changes, automatically we should know what solution.
+// //Now to solve the problem of calling multiple times console.
+// //log for checking the output this subscribe method will be useful (How ?).
+// // store.subscribe(() => {  //using callback function
+// //     console.log(store.getState())    //to get the state we use getState() function
+// // })
+// import { createStore } from 'redux'
+// const idCountElement = document.querySelector('.id-count')
+// const initialState = {    //This is a state
+//     id: 0,
+//     name: 'subscribe',
+//     age: 29,
+//     city: 'Delhi'
 // }
-const { createStore } = require("60336495eb07da9c");
-const { myCreateStore } = require("62f5cf0ddf91bf88");
-// let prevState = state;
-// state.count = state.count + 1;
-// state.count = state.count + 1;
-// state.count = state.count + 1;
-// function increment() {
-//     //*** Mutating State ***//
-//     // state.count = state.count + 1;
-//     //*** Not Mutating State ***//
-//     state = {...state, count: state.count + 1};
-// }
-// increment();
-// console.log(state);
-// increment();
-// console.log(state);
-// increment();
-// console.log(state);
-//Redux says we should'nt call like this.
-// We should not mutate the state. Without mutating the state we should change the state.
-// let state = {
-//     count : 0,
-//     name: 'Aamir',
-//     age: 28,
-//     city: "Hyderabad"
-// }
-//Reducer function: Reducer means updater.
-// function stateUpdater(state) {    //Redux says stateUpdater is a reducer, which means reducer is a (stateUpdater)
-//     state = {...state, count: state.count + 1}   
-//     //Redux says no not this way. You should not touch directly. No updating like this for updating values.
-//     //Then how ? Redux says I will update by myself(Redux). How ? Redux says I will pass state(as a parameter) & return new state..
-// }
-//What Redux will do ?
-// let reduxState = {
-//     ID : 0,
-//     name: 'Aamir',
-//     age: 28,
-//     city: "Hyderabad"
-// }
-// function reducer(state) {
-//     return{...state, ID: state.ID + 1};
-// }
-// reduxState = reducer(reduxState);
-// reduxState = reducer(reduxState);
-// reduxState = reducer(reduxState);
-//Behind the scenes this is how it works.
-//TOPIC: state + action
-//Along with the state we also pass action. action is a plane JS Object. How it looks like ?
-// let reduxState = {
-//     ID: 0,
-//     name: 'Aamir',
-//     age: 28,
-//     city: "Hyderabad"
-// }
-// function reducer(state, action) {
-//     console.log(action);    //Now it shows as 'undefined'
-//     return{...state, ID: state.ID + 1};
-// }
-// reduxState = reducer(reduxState, action);    //redux will pass the action. We will pass action manually differently.
-//we can directly create action as shown below:  
-// reduxState = reducer(reduxState, {type: 'post/increment'});   //This is action's type. By convention post/increment is good to use.
-//type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
-//Still it looks confusing ? Will understand with the real time scenario.
-// let reduxState = {
-//     ID: 0,
-//     name: "Aamir",
-//     age: 28,
-//     city: "Hyderabad"
-// }
-// function reducer(state, action) {
-//     // return{...state, ID: state.ID + 1};
-//     //type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
-//     if(action.type === 'post/increment') {
-//         return {...state, ID: state.ID + 1};
-//     } else if(action.type === 'post/decrement') {
-//         return {...state, ID: state.ID - 1};
-//     } else if(action.type === 'post/incrementBy') {
-//         // return {...state, ID: state.ID + 1, payload: action.payload + action.payload};
-//         // payload: Extra data. Provides the extra details needed to perform that action (e.g., the todo text, or the ID of the todo to delete).
-//         return {...state, ID: state.ID + action.payload}
-//     }
-//     return state;
-// }
-//What will redux do ?
-// console.log(reduxState)
-//type: Describes what kind of action is happening (e.g., "add a todo", "delete a todo").
-// reduxState = reducer(reduxState, {type: 'post/increment'})
-// console.log(reduxState)
-// reduxState = reducer(reduxState, {type: 'post/increment'})
-// console.log(reduxState)
-// reduxState = reducer(reduxState, {type: 'post/decrement'})
-// console.log(reduxState)
-// //Incrementing values using Redux
-// reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 10})   // Extra data needed to add
-// console.log(reduxState)
-// reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 15})   // Extra data needed to add
-// console.log(reduxState)
-// reduxState = reducer(reduxState, {type: 'post/incrementBy', payload: 7})    // Extra data needed to add
-// console.log(reduxState)
-//Reducer function reduces the state into a single value.
-//Here above lines of code we have seen repetitive code for updating state management. 
-//It helps you manage global state by providing a state management mechanism for JavaScript applications 
-//that require state management and state management functions in Redux and provide 
-//the ability to manage state management for JavaScript applications. 
-//TOPIC: Redux
-//We will install Redux & parcel (Globally)
-//npm init -y (simple npm project gets created by this command)
-//npm install -g parcel (parcel project gets created by this command)
-//parcel what it does?
-// It collects all the files in a bundle and starts a server.
-// So we can work in a different different files
-//npx parcel index.html
-//npm i redux (we could have installed it earlier but we couldn't use it by importing, If we try to import it didn't get imported. Normal JS don't know node modules)
-// import { createStore } from 'redux';  //We can use this only for learning purpose
-// console.log(createStore)  //This is deprecated. we see some function of createStore
-//createStore is a function that takes a reducer function as an argument and returns a store object.
-//The store object has methods like getState(), dispatch(), subscribe(), and unsubscribe() that can be used
-//to interact with the store.
-// to see more create like object methods we use 
-// console.dir(createStore)  //createStore() is a function
-// createStore()  //We call it normally without console. Uncaught Error: Expected the root reducer to be a function. Instead, received: 'undefined'
-// import { createStore } from 'redux';
-// const initialState = {
-//     ID: 0,
-//     name: "Aamir",
-//     age: 28,
-//     city: "Hyderabad"
-// }
+// //this is a convention it is a best practice to do.
+// //in action type it is like to keep your convention name in complete capital letters like shown below.
+// //When we use only Redux. Then we can/ have to keep this convention in different file. Just to create a single store.
+// const INCREMENT = 'id/INCREMENT'
+// const DECREMENT = 'id/DECREMENT'
+// const INCREASED_BY = 'id/INCREASED_BY'
+// const DECREASED_BY = 'id/DECREASED_BY'
+// //writing in if else statements:
+// // function reducer(state= initialState, action) {
+// //     if(action.type === INCREMENT) {
+// //         return{...state, id: state.id + 1}
+// //     } else if(action.type === DECREMENT) {
+// //         return{...state, id: state.id - 1}
+// //     } else if(action.type === INCREASED_BY) {
+// //         return{...state, id: state.id + action.payload}
+// //     } else if(action.type === DECREASED_BY) {
+// //         return{...state, id: state.id - action.payload}
+// //     }
+// // }
+// //writing in switch case: Traditionally it is likely to create using switch case. & This is how it was written.
+// //In redux tool kit we can use without switch case.
 // function reducer(state = initialState, action) {
-//     if(action.type === 'post/increment') {
-//         return {...state, ID: state.ID + 1};
-//     } else if(action.type === 'post/decrement') {
-//         return {...state, ID: state.ID - 1};
-//     } else if(action.type === 'post/incrementBy') {
-//         return {...state, ID: state.ID + action.payload}
+//     switch(action.type) {
+//         case INCREMENT:
+//             return{...state, id: state.id + 1}
+//         case DECREMENT:
+//             return{...state, id: state.id - 1}
+//         case INCREASED_BY:
+//             return{...state, id: state.id + action.payload}
+//         case DECREASED_BY:
+//             return{...state, id: state.id - action.payload}
+//         default: 
+//             return state;
 //     }
-//     return state;
 // }
-// const store = createStore(reducer)  //created store. if we use only store it shows. Uncaught ReferenceError: createStore is not defined
+// //we can also write it in a single line like this
+// // return state.id + 1
+// // return state.id - 1
+// // return state.id + action.payload  
+// // const store = createStore(reducer)
+// // const store = createStore(reducer, __REDUX_DEVTOOLS_EXTENSION__())  
+// //if we use where we don't have any redux devtool extension then we will get error.
+// //how to fix from rendering error where there is no redux devtool extension? By using option chaining.
+// const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ ?.())  //created state, this is for devtools
+// const myStore = myCreateStore(reducer);  //self created store. which don't support dev tools. as it is a simple redux store
+// //Here we have used option chaining. In JS ES6 we find option chaining.
+// //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() It is called store enhancer. middle ware is also known as store enhancer, we have to pass.
+// //window.__REDUX_DEVTOOLS_EXTENSION__ ?.() In redux dev tools we don't need to use this option
 // console.log(store)
-// console.log(store.getState());  //we get updated state.
-// redux use reducer in behind the scene like shown below:
-// reducer({currentStateValue}, {action})
-// Then how do we update the state ?
-//If we have to call the reducer, we call dispatch(behind the scene dispatch will call the reducer)
-//How do we call dispatch?
-// store.dispatch()
-//who want reducer, action needs reducer. We can't call the reducer directly. In store we don't get reducer directly.
-//Through dispatch we call reducer. in dispatch only we have to pass action parameter. 
-//Like: dispatch(action) action must be plain obj
-// store.dispatch({type: 'post/increment'})  //We have to pass action as a plain object.
-// store.dispatch({type: 'testing the dispatch for reducer'})
-// store.dispatch({type: 'post/increment'})  //action dispatch: using obj j{type: 'post/increment'} is action type for reducer action increment request.
-// console.log(store.getState())
-// store.dispatch({type: 'post/decrement'})
-// console.log(store.getState())
-//Whenever state changes, automatically we should know what solution.
-//Now to solve the problem of calling multiple times console.
-//log for checking the output this subscribe method will be useful (How ?).
-// store.subscribe(() => {  //using callback function
-//     console.log(store.getState())    //to get the state we use getState() function
+// console.log(myStore)
+// const unsubscribe1 = myStore.subscribe(() => {   //we can use subscribe() method multiple times. 
+//     //with every different use of function(it is a listener) we can do different things working. 
+//     //Can pass multiple functions(listener). We can store this function somewhere
+//     console.log(myStore.getState())   //we get store value from getState(). If it is commented the data/values of the function(listener) in the console will not be shown.
+//     idCountElement.innerHTML = myStore.getState().id
 // })
-const idCountElement = document.querySelector('.id-count');
-const initialState = {
-    id: 0,
-    name: 'subscribe',
-    age: 29,
-    city: 'Delhi'
-};
-//this is a convention it is a best practice to do.
-//in action type it is like to keep your convention name in complete capital letters like shown below.
-//When we use only Redux. Then we can/ have to keep this convention in different file. Just to create a single store.
-const INCREMENT = 'post/INCREMENT';
-const DECREMENT = 'post/DECREMENT';
-const INCREASED_BY = 'post/INCREASED_BY';
-const DECREASED_BY = 'post/DECREASED_BY';
-//writing in if else statements:
-// function reducer(state= initialState, action) {
-//     if(action.type === INCREMENT) {
-//         return{...state, id: state.id + 1}
-//     } else if(action.type === DECREMENT) {
-//         return{...state, id: state.id - 1}
-//     } else if(action.type === INCREASED_BY) {
-//         return{...state, id: state.id + action.payload}
-//     } else if(action.type === DECREASED_BY) {
-//         return{...state, id: state.id - action.payload}
-//     }
-// }
-//writing in switch case: Traditionally it is likely to create using switch case. & This is how it was written.
-//In redux tool kit we can use without switch case.
-function reducer(state = initialState, action) {
-    switch(action.type){
-        case INCREMENT:
-            return {
-                ...state,
-                id: state.id + 1
-            };
-        case DECREMENT:
-            return {
-                ...state,
-                id: state.id - 1
-            };
-        case INCREASED_BY:
-            return {
-                ...state,
-                id: state.id + action.payload
-            };
-        case DECREASED_BY:
-            return {
-                ...state,
-                id: state.id - action.payload
-            };
-        default:
-            return state;
-    }
-}
-//we can also write it in a single line like this
-// return state.id + 1
-// return state.id - 1
-// return state.id + action.payload  
-// const store = createStore(reducer)
-// const store = createStore(reducer, __REDUX_DEVTOOLS_EXTENSION__())  
-//if we use where we don't have any redux devtool extension then we will get error.
-//how to fix from rendering error where there is no redux devtool extension? By using option chaining.
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__?.()) //created state
-;
-const myStore = myCreateStore();
-//Here we have used option chaining. In JS ES6 we find option chaining.
-//window.__REDUX_DEVTOOLS_EXTENSION__ ?.() It is called store enhancer. middle ware is also known as store enhancer, we have to pass.
-//window.__REDUX_DEVTOOLS_EXTENSION__ ?.() In redux dev tools we don't need to use this option
-console.log(store);
-console.log(myStore);
-store.subscribe(()=>{
-    console.log(store.getState()) //we get store value from getState()
-    ;
-    idCountElement.innerHTML = store.getState().id;
-});
-idCountElement.innerHTML = store.getState().id;
-store.dispatch({
-    type: INCREMENT
-});
-store.dispatch({
-    type: DECREMENT
-});
-// store.dispatch({type: INCREMENT, payload: 1})
-// store.dispatch({type: DECREMENT})
-store.dispatch({
-    type: INCREASED_BY,
-    payload: 10
-});
-store.dispatch({
-    type: DECREASED_BY,
-    payload: 5
-});
-//In console (redux) we see mainly inspector & chart
-// we can try with other examples: like setTimeout
-// setTimeout(() => {
-//     store.dispatch({type: DECREMENT})
-// }, 2000);
-idCountElement.addEventListener('click', ()=>{
-    store.dispatch({
-        type: INCREMENT
-    });
-}) //like id we can also make changes with name & other attributes
- //This above was the practical example of how we use REDUX in JavaScript Application
-;
+// const unsubscribe2 = myStore.subscribe(() => {    //this function stored in listener [] of my-redux code file
+//     console.log("I have created my own Redux Store, Which works similar to a normal Redux Store")
+// });
+// const unsubscribe3 = myStore.subscribe(() => {    //this function stored in listener [] of my-redux code file
+//     console.log("This is how we can use subscribe() method multiple times")
+// });
+// idCountElement.innerHTML = myStore.getState().id   //from myStore we are accessing id() for assigning
+// //changed from store(imported) to myStore(self created);
+// myStore.dispatch({type: INCREMENT})   //dispatch starting from here.
+// unsubscribe1()  //Uncaught TypeError: unsubscribe1 is not a function. so let's return a function from my-redux code file
+// unsubscribe2()
+// // console.log(myStore.getState())   //we get store value from getState()
+// myStore.dispatch({type: DECREMENT})
+// // console.log(myStore.getState())   //we get store value from getState()
+// // store.dispatch({type: INCREMENT, payload: 1})
+// // console.log(myStore.getState())   //we get store value from getState()
+// // store.dispatch({type: DECREMENT})
+// // console.log(myStore.getState())   //we get store value from getState()
+// myStore.dispatch({type: INCREASED_BY, payload:10})
+// // console.log(myStore.getState())   //we get store value from getState()
+// myStore.dispatch({type: DECREASED_BY, payload:5})
+// // console.log(myStore.getState())   //we get store value from getState()
+// //In console (redux) we see mainly inspector & chart
+// // we can try with other examples: like setTimeout
+// // setTimeout(() => {
+// //     store.dispatch({type: DECREMENT})
+// // }, 2000);
+// idCountElement.addEventListener('click', () => {
+//     myStore.dispatch({type: INCREMENT})
+// })
+// //like id we can also make changes with name & other attributes
+// //This above was the practical example of how we use REDUX in JavaScript Application
 
-},{"60336495eb07da9c":"anWnS","62f5cf0ddf91bf88":"hh9Yn"}],"anWnS":[function(require,module,exports,__globalThis) {
-// src/utils/formatProdErrorMessage.ts
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "__DO_NOT_USE__ActionTypes", ()=>actionTypes_default);
-parcelHelpers.export(exports, "applyMiddleware", ()=>applyMiddleware);
-parcelHelpers.export(exports, "bindActionCreators", ()=>bindActionCreators);
-parcelHelpers.export(exports, "combineReducers", ()=>combineReducers);
-parcelHelpers.export(exports, "compose", ()=>compose);
-parcelHelpers.export(exports, "createStore", ()=>createStore);
-parcelHelpers.export(exports, "isAction", ()=>isAction);
-parcelHelpers.export(exports, "isPlainObject", ()=>isPlainObject);
-parcelHelpers.export(exports, "legacy_createStore", ()=>legacy_createStore);
-function formatProdErrorMessage(code) {
-    return `Minified Redux error #${code}; visit https://redux.js.org/Errors?code=${code} for the full message or use the non-minified dev environment for full errors. `;
-}
-// src/utils/symbol-observable.ts
-var $$observable = /* @__PURE__ */ (()=>typeof Symbol === "function" && Symbol.observable || "@@observable")();
-var symbol_observable_default = $$observable;
-// src/utils/actionTypes.ts
-var randomString = ()=>Math.random().toString(36).substring(7).split("").join(".");
-var ActionTypes = {
-    INIT: `@@redux/INIT${randomString()}`,
-    REPLACE: `@@redux/REPLACE${randomString()}`,
-    PROBE_UNKNOWN_ACTION: ()=>`@@redux/PROBE_UNKNOWN_ACTION${randomString()}`
-};
-var actionTypes_default = ActionTypes;
-// src/utils/isPlainObject.ts
-function isPlainObject(obj) {
-    if (typeof obj !== "object" || obj === null) return false;
-    let proto = obj;
-    while(Object.getPrototypeOf(proto) !== null)proto = Object.getPrototypeOf(proto);
-    return Object.getPrototypeOf(obj) === proto || Object.getPrototypeOf(obj) === null;
-}
-// src/utils/kindOf.ts
-function miniKindOf(val) {
-    if (val === void 0) return "undefined";
-    if (val === null) return "null";
-    const type = typeof val;
-    switch(type){
-        case "boolean":
-        case "string":
-        case "number":
-        case "symbol":
-        case "function":
-            return type;
-    }
-    if (Array.isArray(val)) return "array";
-    if (isDate(val)) return "date";
-    if (isError(val)) return "error";
-    const constructorName = ctorName(val);
-    switch(constructorName){
-        case "Symbol":
-        case "Promise":
-        case "WeakMap":
-        case "WeakSet":
-        case "Map":
-        case "Set":
-            return constructorName;
-    }
-    return Object.prototype.toString.call(val).slice(8, -1).toLowerCase().replace(/\s/g, "");
-}
-function ctorName(val) {
-    return typeof val.constructor === "function" ? val.constructor.name : null;
-}
-function isError(val) {
-    return val instanceof Error || typeof val.message === "string" && val.constructor && typeof val.constructor.stackTraceLimit === "number";
-}
-function isDate(val) {
-    if (val instanceof Date) return true;
-    return typeof val.toDateString === "function" && typeof val.getDate === "function" && typeof val.setDate === "function";
-}
-function kindOf(val) {
-    let typeOfVal = typeof val;
-    typeOfVal = miniKindOf(val);
-    return typeOfVal;
-}
-// src/createStore.ts
-function createStore(reducer, preloadedState, enhancer) {
-    if (typeof reducer !== "function") throw new Error(`Expected the root reducer to be a function. Instead, received: '${kindOf(reducer)}'`);
-    if (typeof preloadedState === "function" && typeof enhancer === "function" || typeof enhancer === "function" && typeof arguments[3] === "function") throw new Error("It looks like you are passing several store enhancers to createStore(). This is not supported. Instead, compose them together to a single function. See https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers for an example.");
-    if (typeof preloadedState === "function" && typeof enhancer === "undefined") {
-        enhancer = preloadedState;
-        preloadedState = void 0;
-    }
-    if (typeof enhancer !== "undefined") {
-        if (typeof enhancer !== "function") throw new Error(`Expected the enhancer to be a function. Instead, received: '${kindOf(enhancer)}'`);
-        return enhancer(createStore)(reducer, preloadedState);
-    }
-    let currentReducer = reducer;
-    let currentState = preloadedState;
-    let currentListeners = /* @__PURE__ */ new Map();
-    let nextListeners = currentListeners;
-    let listenerIdCounter = 0;
-    let isDispatching = false;
-    function ensureCanMutateNextListeners() {
-        if (nextListeners === currentListeners) {
-            nextListeners = /* @__PURE__ */ new Map();
-            currentListeners.forEach((listener, key)=>{
-                nextListeners.set(key, listener);
-            });
-        }
-    }
-    function getState() {
-        if (isDispatching) throw new Error("You may not call store.getState() while the reducer is executing. The reducer has already received the state as an argument. Pass it down from the top reducer instead of reading it from the store.");
-        return currentState;
-    }
-    function subscribe(listener) {
-        if (typeof listener !== "function") throw new Error(`Expected the listener to be a function. Instead, received: '${kindOf(listener)}'`);
-        if (isDispatching) throw new Error("You may not call store.subscribe() while the reducer is executing. If you would like to be notified after the store has been updated, subscribe from a component and invoke store.getState() in the callback to access the latest state. See https://redux.js.org/api/store#subscribelistener for more details.");
-        let isSubscribed = true;
-        ensureCanMutateNextListeners();
-        const listenerId = listenerIdCounter++;
-        nextListeners.set(listenerId, listener);
-        return function unsubscribe() {
-            if (!isSubscribed) return;
-            if (isDispatching) throw new Error("You may not unsubscribe from a store listener while the reducer is executing. See https://redux.js.org/api/store#subscribelistener for more details.");
-            isSubscribed = false;
-            ensureCanMutateNextListeners();
-            nextListeners.delete(listenerId);
-            currentListeners = null;
-        };
-    }
-    function dispatch(action) {
-        if (!isPlainObject(action)) throw new Error(`Actions must be plain objects. Instead, the actual type was: '${kindOf(action)}'. You may need to add middleware to your store setup to handle dispatching other values, such as 'redux-thunk' to handle dispatching functions. See https://redux.js.org/tutorials/fundamentals/part-4-store#middleware and https://redux.js.org/tutorials/fundamentals/part-6-async-logic#using-the-redux-thunk-middleware for examples.`);
-        if (typeof action.type === "undefined") throw new Error('Actions may not have an undefined "type" property. You may have misspelled an action type string constant.');
-        if (typeof action.type !== "string") throw new Error(`Action "type" property must be a string. Instead, the actual type was: '${kindOf(action.type)}'. Value was: '${action.type}' (stringified)`);
-        if (isDispatching) throw new Error("Reducers may not dispatch actions.");
-        try {
-            isDispatching = true;
-            currentState = currentReducer(currentState, action);
-        } finally{
-            isDispatching = false;
-        }
-        const listeners = currentListeners = nextListeners;
-        listeners.forEach((listener)=>{
-            listener();
-        });
-        return action;
-    }
-    function replaceReducer(nextReducer) {
-        if (typeof nextReducer !== "function") throw new Error(`Expected the nextReducer to be a function. Instead, received: '${kindOf(nextReducer)}`);
-        currentReducer = nextReducer;
-        dispatch({
-            type: actionTypes_default.REPLACE
-        });
-    }
-    function observable() {
-        const outerSubscribe = subscribe;
-        return {
-            /**
-       * The minimal observable subscription method.
-       * @param observer Any object that can be used as an observer.
-       * The observer object should have a `next` method.
-       * @returns An object with an `unsubscribe` method that can
-       * be used to unsubscribe the observable from the store, and prevent further
-       * emission of values from the observable.
-       */ subscribe (observer) {
-                if (typeof observer !== "object" || observer === null) throw new Error(`Expected the observer to be an object. Instead, received: '${kindOf(observer)}'`);
-                function observeState() {
-                    const observerAsObserver = observer;
-                    if (observerAsObserver.next) observerAsObserver.next(getState());
-                }
-                observeState();
-                const unsubscribe = outerSubscribe(observeState);
-                return {
-                    unsubscribe
-                };
-            },
-            [symbol_observable_default] () {
-                return this;
-            }
-        };
-    }
-    dispatch({
-        type: actionTypes_default.INIT
-    });
-    const store = {
-        dispatch,
-        subscribe,
-        getState,
-        replaceReducer,
-        [symbol_observable_default]: observable
-    };
-    return store;
-}
-function legacy_createStore(reducer, preloadedState, enhancer) {
-    return createStore(reducer, preloadedState, enhancer);
-}
-// src/utils/warning.ts
-function warning(message) {
-    if (typeof console !== "undefined" && typeof console.error === "function") console.error(message);
-    try {
-        throw new Error(message);
-    } catch (e) {}
-}
-// src/combineReducers.ts
-function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
-    const reducerKeys = Object.keys(reducers);
-    const argumentName = action && action.type === actionTypes_default.INIT ? "preloadedState argument passed to createStore" : "previous state received by the reducer";
-    if (reducerKeys.length === 0) return "Store does not have a valid reducer. Make sure the argument passed to combineReducers is an object whose values are reducers.";
-    if (!isPlainObject(inputState)) return `The ${argumentName} has unexpected type of "${kindOf(inputState)}". Expected argument to be an object with the following keys: "${reducerKeys.join('", "')}"`;
-    const unexpectedKeys = Object.keys(inputState).filter((key)=>!reducers.hasOwnProperty(key) && !unexpectedKeyCache[key]);
-    unexpectedKeys.forEach((key)=>{
-        unexpectedKeyCache[key] = true;
-    });
-    if (action && action.type === actionTypes_default.REPLACE) return;
-    if (unexpectedKeys.length > 0) return `Unexpected ${unexpectedKeys.length > 1 ? "keys" : "key"} "${unexpectedKeys.join('", "')}" found in ${argumentName}. Expected to find one of the known reducer keys instead: "${reducerKeys.join('", "')}". Unexpected keys will be ignored.`;
-}
-function assertReducerShape(reducers) {
-    Object.keys(reducers).forEach((key)=>{
-        const reducer = reducers[key];
-        const initialState = reducer(void 0, {
-            type: actionTypes_default.INIT
-        });
-        if (typeof initialState === "undefined") throw new Error(`The slice reducer for key "${key}" returned undefined during initialization. If the state passed to the reducer is undefined, you must explicitly return the initial state. The initial state may not be undefined. If you don't want to set a value for this reducer, you can use null instead of undefined.`);
-        if (typeof reducer(void 0, {
-            type: actionTypes_default.PROBE_UNKNOWN_ACTION()
-        }) === "undefined") throw new Error(`The slice reducer for key "${key}" returned undefined when probed with a random type. Don't try to handle '${actionTypes_default.INIT}' or other actions in "redux/*" namespace. They are considered private. Instead, you must return the current state for any unknown actions, unless it is undefined, in which case you must return the initial state, regardless of the action type. The initial state may not be undefined, but can be null.`);
-    });
-}
-function combineReducers(reducers) {
-    const reducerKeys = Object.keys(reducers);
-    const finalReducers = {};
-    for(let i = 0; i < reducerKeys.length; i++){
-        const key = reducerKeys[i];
-        if (typeof reducers[key] === "undefined") warning(`No reducer provided for key "${key}"`);
-        if (typeof reducers[key] === "function") finalReducers[key] = reducers[key];
-    }
-    const finalReducerKeys = Object.keys(finalReducers);
-    let unexpectedKeyCache;
-    unexpectedKeyCache = {};
-    let shapeAssertionError;
-    try {
-        assertReducerShape(finalReducers);
-    } catch (e) {
-        shapeAssertionError = e;
-    }
-    return function combination(state = {}, action) {
-        if (shapeAssertionError) throw shapeAssertionError;
-        {
-            const warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
-            if (warningMessage) warning(warningMessage);
-        }
-        let hasChanged = false;
-        const nextState = {};
-        for(let i = 0; i < finalReducerKeys.length; i++){
-            const key = finalReducerKeys[i];
-            const reducer = finalReducers[key];
-            const previousStateForKey = state[key];
-            const nextStateForKey = reducer(previousStateForKey, action);
-            if (typeof nextStateForKey === "undefined") {
-                const actionType = action && action.type;
-                throw new Error(`When called with an action of type ${actionType ? `"${String(actionType)}"` : "(unknown type)"}, the slice reducer for key "${key}" returned undefined. To ignore an action, you must explicitly return the previous state. If you want this reducer to hold no value, you can return null instead of undefined.`);
-            }
-            nextState[key] = nextStateForKey;
-            hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
-        }
-        hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state).length;
-        return hasChanged ? nextState : state;
-    };
-}
-// src/bindActionCreators.ts
-function bindActionCreator(actionCreator, dispatch) {
-    return function(...args) {
-        return dispatch(actionCreator.apply(this, args));
-    };
-}
-function bindActionCreators(actionCreators, dispatch) {
-    if (typeof actionCreators === "function") return bindActionCreator(actionCreators, dispatch);
-    if (typeof actionCreators !== "object" || actionCreators === null) throw new Error(`bindActionCreators expected an object or a function, but instead received: '${kindOf(actionCreators)}'. Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?`);
-    const boundActionCreators = {};
-    for(const key in actionCreators){
-        const actionCreator = actionCreators[key];
-        if (typeof actionCreator === "function") boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
-    }
-    return boundActionCreators;
-}
-// src/compose.ts
-function compose(...funcs) {
-    if (funcs.length === 0) return (arg)=>arg;
-    if (funcs.length === 1) return funcs[0];
-    return funcs.reduce((a, b)=>(...args)=>a(b(...args)));
-}
-// src/applyMiddleware.ts
-function applyMiddleware(...middlewares) {
-    return (createStore2)=>(reducer, preloadedState)=>{
-            const store = createStore2(reducer, preloadedState);
-            let dispatch = ()=>{
-                throw new Error("Dispatching while constructing your middleware is not allowed. Other middleware would not be applied to this dispatch.");
-            };
-            const middlewareAPI = {
-                getState: store.getState,
-                dispatch: (action, ...args)=>dispatch(action, ...args)
-            };
-            const chain = middlewares.map((middleware)=>middleware(middlewareAPI));
-            dispatch = compose(...chain)(store.dispatch);
-            return {
-                ...store,
-                dispatch
-            };
-        };
-}
-// src/utils/isAction.ts
-function isAction(action) {
-    return isPlainObject(action) && "type" in action && typeof action.type === "string";
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"7yyeJ"}],"7yyeJ":[function(require,module,exports,__globalThis) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, '__esModule', {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"hh9Yn":[function(require,module,exports,__globalThis) {
-//create function returns a object which has 3 properties.
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "myCreateStore", ()=>myCreateStore);
-function myCreateStore() {
-    const store = {
-        // manually-created methods: getState(), dispatch(), subscribe() methods
-        getState () {
-            console.log('getState');
-        },
-        dispatch () {
-            console.log('dispatch');
-        },
-        subscribe () {
-            console.log('subscribe');
-        }
-    };
-    return store;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"7yyeJ"}]},["dm4SN","6rimH"], "6rimH", "parcelRequire94c2")
+},{}]},["dm4SN","6rimH"], "6rimH", "parcelRequire94c2")
 
 //# sourceMappingURL=index.8cfc62b9.js.map
