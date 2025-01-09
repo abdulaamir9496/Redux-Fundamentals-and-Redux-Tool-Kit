@@ -726,6 +726,12 @@ store.dispatch({
     }
 }) //when dispatched it calls the reducer function and decrements product quantity by 1.
 ;
+// const a = decreaseCartItemQuantity(18)  //object written's 18 stored in 'a' variable. ctrl + space to import from CartReducer.js
+// console.log(a);
+//Instead of saving in a variable, we can directly dispatch as shown below:
+store.dispatch((0, _cartReducer.decreaseCartItemQuantity)(12)) //This is action creator function which returns an object with type & payload properties. Which is been called from CartReducer.js file
+;
+//will make it same kind of action creators for others.
 store.dispatch({
     type: (0, _wishListReducer.WISHLIST_ADD_ITEM),
     payload: {
@@ -733,6 +739,8 @@ store.dispatch({
     }
 }) //when dispatched it calls the reducer function and increment wishlist quantity by 1.
 ;
+//This is called function store.dispatch()
+//This is called action: {type: WISHLIST_ADD_ITEM, payload: {productId: 18}} takes more lines of code and space.
 store.dispatch({
     type: (0, _wishListReducer.WISHLIST_ADD_ITEM),
     payload: {
@@ -747,13 +755,8 @@ store.dispatch({
     }
 }) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
 ;
-store.dispatch({
-    type: (0, _wishListReducer.WISHLIST_REMOVE_ITEM),
-    payload: {
-        productId: 11
-    }
-}) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
-;
+// store.dispatch({type: WISHLIST_REMOVE_ITEM, payload: {productId: 11}}) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
+store.dispatch((0, _wishListReducer.removeWishListItem)(11));
 console.log(store.getState());
 
 },{"redux":"anWnS","./CartReducer":"jxRUB","./WishListReducer":"5bOYX","./ProductsReducer":"cVzrt","@parcel/transformer-js/src/esmodule-helpers.js":"7yyeJ"}],"anWnS":[function(require,module,exports,__globalThis) {
@@ -1095,18 +1098,38 @@ exports.export = function(dest, destName, get) {
 };
 
 },{}],"jxRUB":[function(require,module,exports,__globalThis) {
-//cart  action types:
+//cart action types:
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "CART_ADD_ITEM", ()=>CART_ADD_ITEM);
 parcelHelpers.export(exports, "CART_REMOVE_ITEM", ()=>CART_REMOVE_ITEM);
 parcelHelpers.export(exports, "CART_INCREASE_ITEM_QUANTITY", ()=>CART_INCREASE_ITEM_QUANTITY);
 parcelHelpers.export(exports, "CART_DECREASE_ITEM_QUANTITY", ()=>CART_DECREASE_ITEM_QUANTITY);
+//Action creators
+parcelHelpers.export(exports, "increaseCartItemQuantity", ()=>increaseCartItemQuantity);
+parcelHelpers.export(exports, "decreaseCartItemQuantity", ()=>decreaseCartItemQuantity);
 parcelHelpers.export(exports, "default", ()=>CartReducer);
 const CART_ADD_ITEM = "cart/addItem";
 const CART_REMOVE_ITEM = "cart/removeItem";
 const CART_INCREASE_ITEM_QUANTITY = "cart/increaseItemQuantity";
 const CART_DECREASE_ITEM_QUANTITY = "cart/decreaseItemQuantity";
+function increaseCartItemQuantity(productId) {
+    return {
+        type: CART_INCREASE_ITEM_QUANTITY,
+        payload: {
+            productId
+        }
+    };
+}
+function decreaseCartItemQuantity(productId) {
+    return {
+        type: CART_DECREASE_ITEM_QUANTITY,
+        // payload: {productId : productId}  //In modern JS if both key and value are same we can write only one.
+        payload: {
+            productId
+        } //It works if we write only one as only productId. It will take key value automatically.
+    };
+}
 function CartReducer(state = [], action) {
     switch(action.type){
         //Adding items in the cart functionality
@@ -1150,9 +1173,20 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "WISHLIST_ADD_ITEM", ()=>WISHLIST_ADD_ITEM);
 parcelHelpers.export(exports, "WISHLIST_REMOVE_ITEM", ()=>WISHLIST_REMOVE_ITEM);
+//Action creator
+parcelHelpers.export(exports, "removeWishListItem", ()=>removeWishListItem);
 parcelHelpers.export(exports, "default", ()=>WishListReducer);
 const WISHLIST_ADD_ITEM = 'wishList/addItem';
 const WISHLIST_REMOVE_ITEM = 'wishList/removeItem';
+function removeWishListItem(productId) {
+    return {
+        type: WISHLIST_REMOVE_ITEM,
+        // payload: {productId : productId}  //In modern JS if both key and value are same we can write only one.
+        payload: {
+            productId
+        } //It works if we write only one as only productId. It will take key value automatically.
+    };
+}
 function WishListReducer(state = [], action) {
     switch(action.type){
         //Adding items in the wishlist functionality

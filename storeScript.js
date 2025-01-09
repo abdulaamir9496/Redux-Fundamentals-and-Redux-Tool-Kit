@@ -1,6 +1,16 @@
 import { combineReducers, createStore } from 'redux'
-import CartReducer, { CART_ADD_ITEM, CART_DECREASE_ITEM_QUANTITY, CART_INCREASE_ITEM_QUANTITY, CART_REMOVE_ITEM } from './CartReducer';
-import WishListReducer, { WISHLIST_ADD_ITEM, WISHLIST_REMOVE_ITEM } from './WishListReducer';
+import CartReducer, { 
+    CART_ADD_ITEM, 
+    CART_DECREASE_ITEM_QUANTITY, 
+    CART_INCREASE_ITEM_QUANTITY, 
+    CART_REMOVE_ITEM, 
+    decreaseCartItemQuantity
+} from './CartReducer';
+import WishListReducer, { 
+    removeWishListItem,
+    WISHLIST_ADD_ITEM, 
+    WISHLIST_REMOVE_ITEM 
+} from './WishListReducer';
 import ProductsReducer from './ProductsReducer';
 // import { productsList } from './productsList';
 
@@ -98,13 +108,28 @@ store.dispatch({type: CART_ADD_ITEM, payload: {productId: 1, quantity: 1}})   //
 // store.dispatch({type: CART_ADD_ITEM, payload: {productId: 15, quantity: 1}})   //when dispatched it calls the reducer function.
 // store.dispatch({type: CART_ADD_ITEM, payload: {productId: 7, quantity: 1}})   //when dispatched it calls the reducer function.
 store.dispatch({type: CART_REMOVE_ITEM, payload: {productId: 1}})   //when dispatched it calls the reducer function.
-store.dispatch({type: CART_INCREASE_ITEM_QUANTITY, payload: {productId: 12}}) //when dispatched it calls the reducer function and increment product quantity by 1.
+store.dispatch({
+    type: CART_INCREASE_ITEM_QUANTITY, 
+    payload: {productId: 12},
+}) //when dispatched it calls the reducer function and increment product quantity by 1.
 // store.dispatch({type: CART_INCREASE_ITEM_QUANTITY, payload: {productId: 12}}) //when dispatched it calls the reducer function and increment product quantity by 1.
 // store.dispatch({type: CART_INCREASE_ITEM_QUANTITY, payload: {productId: 15}}) //when dispatched it calls the reducer function and increment product quantity by 1.
-store.dispatch({type: CART_DECREASE_ITEM_QUANTITY, payload: {productId: 12}}) //when dispatched it calls the reducer function and decrements product quantity by 1.
+store.dispatch({  //inside dispatch we can pass multiple actions like: type & payload. In action we have two properties 1. type & 2. payload(optional property/ not required/ required in few to some cases).
+    type: CART_DECREASE_ITEM_QUANTITY, 
+    payload: {productId: 12},
+}) //when dispatched it calls the reducer function and decrements product quantity by 1.
+
+// const a = decreaseCartItemQuantity(18)  //object written's 18 stored in 'a' variable. ctrl + space to import from CartReducer.js
+// console.log(a);
+//Instead of saving in a variable, we can directly dispatch as shown below:
+store.dispatch(decreaseCartItemQuantity(12))   //This is action creator function which returns an object with type & payload properties. Which is been called from CartReducer.js file
+//will make it same kind of action creators for others.
 store.dispatch({type: WISHLIST_ADD_ITEM, payload: {productId: 18}}) //when dispatched it calls the reducer function and increment wishlist quantity by 1.
+//This is called function store.dispatch()
+//This is called action: {type: WISHLIST_ADD_ITEM, payload: {productId: 18}} takes more lines of code and space.
 store.dispatch({type: WISHLIST_ADD_ITEM, payload: {productId: 11}}) //when dispatched it calls the reducer function and increment wishlist quantity by 1.
 store.dispatch({type: WISHLIST_REMOVE_ITEM, payload: {productId: 18}}) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
-store.dispatch({type: WISHLIST_REMOVE_ITEM, payload: {productId: 11}}) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
+// store.dispatch({type: WISHLIST_REMOVE_ITEM, payload: {productId: 11}}) //when dispatched it calls the reducer function and decrement wishlist quantity by 1.
+store.dispatch(removeWishListItem(11))
 console.log(store.getState())
 
